@@ -1,23 +1,29 @@
-import { AuthType } from "types/authType";
 import { Action } from "types/action";
-import { LoginResposne } from "types/response";
+import { AuthType } from "types/authType";
+import { LoginMutation } from "../../src/generated/graphql";
 
-const INITIAL_STATE:AuthType = {
-    isLoggedIn: false,
-    name: '',
-    ID:'',
-    phone: ''
-}
+const INITIAL_STATE: AuthType = {
+  isLoggedIn: false,
+  id: 0,
+  email: "",
+  name: " ",
+  status: "",
+  bcCity: "",
+  contact: "",
+  zohoID: "",
+  createdAt: '',
+  updatedAt: ''
+};
 
-const authReducer = (state=INITIAL_STATE,action:Action<LoginResposne>) => {
-    switch(action.type) {
-        case 'LOGIN' :
-        const { user } = action.payload
-        return { ...state, isLoggedIn: true, ...user }
-        
-        default :
-        return state
-    }
-}
+const authReducer = (state = INITIAL_STATE, action: Action<LoginMutation>) => {
+  switch (action.type) {
+    case "LOGIN":
+      const { user } = action.payload.login;
+      return { ...state, isLoggedIn: true, ...user };
 
-export default authReducer
+    default:
+      return state;
+  }
+};
+
+export default authReducer;

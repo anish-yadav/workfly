@@ -1,7 +1,7 @@
 import { Action } from "types/action";
-import { LoginResposne } from "types/response";
+import { LoginMutation } from "../../src/generated/graphql";
 
-export const login = (payload:LoginResposne):Action<LoginResposne> => {
+export const login = (payload: LoginMutation| undefined | null):Action<LoginMutation| undefined | null> => {
     return {
         type: 'LOGIN',
         payload

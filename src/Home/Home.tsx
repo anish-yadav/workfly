@@ -9,6 +9,7 @@ import { useTheme } from '@shopify/restyle'
 import { Theme } from 'src/components/theme'
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
 import Tabs from './Tabs'
+import { useMeQuery } from '../generated/graphql'
 
 interface Prop {
   navigation: StackNavigationProp<Routes, "Login">,
@@ -21,6 +22,7 @@ const Home = ({ navigation }: Prop) => {
   const { name } = useSelector<State, AuthType>((state) => ({ ...state.authReducer }))
   const theme = useTheme<Theme>();
   const [active,setActive] = useState<number>(0)
+  
 
   const handleBackButton = () => {
     Alert.alert(
@@ -46,7 +48,7 @@ const Home = ({ navigation }: Prop) => {
 
   useEffect(() => {
     BackHandler.addEventListener('hardwareBackPress', handleBackButton)
-
+    
     return () => {
       BackHandler.removeEventListener('hardwareBackPress', handleBackButton)
     }

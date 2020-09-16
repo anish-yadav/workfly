@@ -16,7 +16,7 @@ const Tabs = ({ active, onPress }: Props) => {
                 showsHorizontalScrollIndicator={false}
             >
                 {values.map((v, i) => (
-                    <Box width={100}>
+                    <Box key={i} width={100}>
                         <Text variant="header1" onPress={() => onPress(i)} key={i} color={ active === i ? 'primaryText': 'secondaryText'}>{v}</Text>
                     </Box>
                 ))}
