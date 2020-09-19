@@ -1,0 +1,11 @@
+mutation CreateTask($title:String!,$description:String!){
+  createTask(input:{ title: $title, 
+    description:$description}){
+    id
+    title
+    description
+    status
+    createdAt
+    creatorId
+  }
+}

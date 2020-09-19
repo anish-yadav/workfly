@@ -1,11 +1,13 @@
+import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
 import { createStackNavigator } from '@react-navigation/stack';
 import { ThemeProvider } from '@shopify/restyle';
 import React from 'react';
-import { Authentication } from './src/Authentication';
+import { PaginatedTask } from 'src/generated/graphql';
 import { LoadAssets, theme } from './src/components';
 import Wrapper from './src/components/Wrapper';
-import HomeTabbar from './src/Home';
-import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client'
+import HomeTabbar from './src/Screens/Home';
+
+
 
 export default function App() {
   const fonts = {
@@ -18,8 +20,25 @@ export default function App() {
   }
   const Stack = createStackNavigator();
   const client = new ApolloClient({
-    uri: 'https://96ac158bc00a.ngrok.io/graphql',
-    cache: new InMemoryCache()
+    uri: 'https://8b5d03892d8b.ngrok.io/graphql',
+    credentials: "include",
+    cache: new InMemoryCache({
+      typePolicies:{
+        Query:{
+          fields:{
+            posts:{
+              merge(existing:PaginatedTask | undefined, incoming: PaginatedTask):PaginatedTask {
+                console.log(existing,incoming)
+                return {
+                  ...incoming,
+                  tasks:[ ...(existing?.tasks || []), ...incoming.tasks]
+                }
+              }
+            }
+          }
+        }
+      }
+    })
   })
   return (
     <LoadAssets fonts={fonts}>
@@ -27,7 +46,6 @@ export default function App() {
         <ApolloProvider client={client}>
         <ThemeProvider theme={theme}>
           <Stack.Navigator headerMode="none" >
-          <Stack.Screen component={Authentication} name="Login" />
           <Stack.Screen component={HomeTabbar} name="Home" />
           </Stack.Navigator>
         </ThemeProvider>

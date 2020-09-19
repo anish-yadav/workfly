@@ -1,0 +1,12 @@
+query getTasks($limit: Float!, $cursor: String) {
+  tasks(limit: $limit, cursor: $cursor) {
+    tasks {
+      id
+      title
+      description
+      createdAt
+      status
+    }
+    hasMore
+  }
+}

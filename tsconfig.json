@@ -18,6 +18,7 @@
     "suppressImplicitAnyIndexErrors": true,
     "noUnusedLocals": true,
     "skipLibCheck": true,
-    "baseUrl": "."
-  }
+    "baseUrl": ".",
+
+  },
 }

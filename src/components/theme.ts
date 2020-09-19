@@ -13,7 +13,7 @@ const palette = {
   greenDark: '#0A906E',
 
   black: '#0B0B0B',
-  white: '#F0F2F3',
+  white: '#FFFFFF',
   grey: '#8F92A1',
   lightGrey: '#F6F7FB'
 };

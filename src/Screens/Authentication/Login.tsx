@@ -2,22 +2,22 @@ import { RouteProp } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { useTheme } from "@shopify/restyle";
 import { Formik } from "formik";
-import React, { useEffect } from "react";
+import React from "react";
 import {
   Dimensions, Linking,
   TouchableWithoutFeedback,
   View
 } from "react-native";
 import Feather from "react-native-vector-icons/Feather";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Theme } from "src/components/theme";
-import { AuthType, Routes, State } from "types";
-import { validate } from "../../helpers";
-import { login } from "../../redux/actions";
-import { Box, Text } from "../components";
-import Button from "../components/Button";
-import Input from "../components/Input";
-import { useLoginMutation } from "../generated/graphql";
+import { Routes } from "types";
+import { validate } from "../../../helpers";
+import { login } from "../../../redux/actions";
+import { Box, Text } from "../../components";
+import Button from "../../components/Button";
+import Input from "../../components/Input";
+import { useLoginMutation } from "../../generated/graphql";
 
 const { height } = Dimensions.get("window");
 
@@ -28,16 +28,10 @@ interface Prop {
 const Login = ({ navigation }: Prop) => {
   const theme = useTheme<Theme>();
   const dispatch = useDispatch();
-  const { isLoggedIn, id } = useSelector<State, AuthType>((state) => {
-    console.log("State", state);
-    return state.authReducer;
-  });
+
   const [loginUser, { error, data }] = useLoginMutation();
   
-  useEffect(() => {
-    if (isLoggedIn && id) 
-      navigation.navigate('Home')
-  });
+ 
   return (
     <View
       style={{ padding: theme.spacing.l, marginTop: theme.spacing.l, height }}
@@ -52,6 +46,7 @@ const Login = ({ navigation }: Prop) => {
         initialValues={{ email: "", password: "" }}
         onSubmit={async (values, { setErrors, setSubmitting }) => {
           const errors = validate(values);
+          console.log('values are', values)
           if (errors.email || errors.password) {
             console.log("errors occureed", errors);
             setErrors(errors);
@@ -59,25 +54,16 @@ const Login = ({ navigation }: Prop) => {
             return;
           }
           try {
-            // const { data }:AxiosResponse<LoginResposne> = await axios({
-            //     url: 'https://blood-request-api.herokuapp.com/v2/authenticate',
-            //     method: 'POST',
-            //     data: { email: values.email, phone: values.password }
-            // })
-            // if(data.error) {
-            //     setErrors({ password : data.error })
-            //     setSubmitting(false)
-            //     return
-            // }
             await loginUser({
               variables: { email: values.email, password: values.password },
             });
-            if(data?.login.error){
-              setErrors({ password: data.login.error})
+            console.log(data?.login.error,error, values.password)
+            if(data?.login.error || error){
+              setErrors({ password: 'incorrect password'})
               setSubmitting(false)
               return;
             }
-            console.log(data?.login.user)
+            console.log('user data',data?.login.user)
               
             dispatch(login(data));
             navigation.navigate('Home')

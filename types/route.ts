@@ -1,5 +1,6 @@
 export type Routes = {
   Login:undefined,
-  Home:undefined
+  Home:undefined,
+  AddTask: undefined
 };
 

@@ -21,7 +21,7 @@ const MyTabbar = ({ state, descriptors, navigation }: Props) => {
   }
 
   return (
-    <View style={{ flexDirection: 'row' }}>
+    <View style={{ flexDirection: 'row', backgroundColor: theme.colors.mainBackground, height: 70 }}>
       {state.routes.map((route: Route<string>, index) => {
         const { options } = descriptors[route.key];
         const label =
@@ -34,13 +34,15 @@ const MyTabbar = ({ state, descriptors, navigation }: Props) => {
         const isFocused = state.index === index;
 
         const onPress = () => {
+          
           const event = navigation.emit({
             type: 'tabPress',
             target: route.key,
             canPreventDefault: true,
           });
 
-          if (!isFocused && !event.defaultPrevented) {
+          
+          if ((!isFocused || route.name === "Add") && !event.defaultPrevented ) {
             navigation.navigate(route.name);
           }
         };

@@ -14,6 +14,13 @@ export type Scalars = {
 export type Query = {
   __typename?: 'Query';
   me?: Maybe<User>;
+  tasks: PaginatedTask;
+};
+
+
+export type QueryTasksArgs = {
+  cursor?: Maybe<Scalars['String']>;
+  limit?: Maybe<Scalars['Float']>;
 };
 
 export type User = {
@@ -25,8 +32,30 @@ export type User = {
   bcCity: Scalars['String'];
   contact: Scalars['String'];
   zohoID: Scalars['String'];
+  tasks?: Maybe<Array<Task>>;
+  myTasks?: Maybe<Array<Task>>;
   createdAt: Scalars['String'];
   updatedAt: Scalars['String'];
+};
+
+export type Task = {
+  __typename?: 'Task';
+  id: Scalars['Float'];
+  title: Scalars['String'];
+  description: Scalars['String'];
+  status: Scalars['String'];
+  creatorId: Scalars['Float'];
+  creator?: Maybe<User>;
+  createdAt: Scalars['String'];
+  handlerId?: Maybe<Scalars['Int']>;
+  handler?: Maybe<User>;
+  updatedAt: Scalars['String'];
+};
+
+export type PaginatedTask = {
+  __typename?: 'PaginatedTask';
+  tasks: Array<Task>;
+  hasMore: Scalars['Boolean'];
 };
 
 export type Mutation = {
@@ -35,6 +64,9 @@ export type Mutation = {
   login: LoginResponse;
   logout: Scalars['Boolean'];
   createTask: Task;
+  editTask: Task;
+  doTask: Task;
+  updateMany: Scalars['Boolean'];
 };
 
 
@@ -53,27 +85,46 @@ export type MutationCreateTaskArgs = {
   input: TaskInput;
 };
 
+
+export type MutationEditTaskArgs = {
+  description: Scalars['String'];
+  id: Scalars['Float'];
+};
+
+
+export type MutationDoTaskArgs = {
+  taskId: Scalars['Float'];
+};
+
+
+export type MutationUpdateManyArgs = {
+  description: Scalars['String'];
+};
+
 export type LoginResponse = {
   __typename?: 'LoginResponse';
   error?: Maybe<Scalars['String']>;
   user?: Maybe<User>;
 };
 
-export type Task = {
-  __typename?: 'Task';
-  id: Scalars['Float'];
-  title: Scalars['String'];
-  description: Scalars['String'];
-  status: Scalars['String'];
-  creatorId: Scalars['Float'];
-  createdAt: Scalars['String'];
-  updatedAt: Scalars['String'];
-};
-
 export type TaskInput = {
   title: Scalars['String'];
   description: Scalars['String'];
 };
+
+export type CreateTaskMutationVariables = Exact<{
+  title: Scalars['String'];
+  description: Scalars['String'];
+}>;
+
+
+export type CreateTaskMutation = (
+  { __typename?: 'Mutation' }
+  & { createTask: (
+    { __typename?: 'Task' }
+    & Pick<Task, 'id' | 'title' | 'description' | 'status' | 'createdAt' | 'creatorId'>
+  ) }
+);
 
 export type LoginMutationVariables = Exact<{
   email: Scalars['String'];
@@ -104,7 +155,63 @@ export type MeQuery = (
   )> }
 );
 
+export type GetTasksQueryVariables = Exact<{
+  limit: Scalars['Float'];
+  cursor?: Maybe<Scalars['String']>;
+}>;
 
+
+export type GetTasksQuery = (
+  { __typename?: 'Query' }
+  & { tasks: (
+    { __typename?: 'PaginatedTask' }
+    & Pick<PaginatedTask, 'hasMore'>
+    & { tasks: Array<(
+      { __typename?: 'Task' }
+      & Pick<Task, 'id' | 'title' | 'description' | 'createdAt' | 'status'>
+    )> }
+  ) }
+);
+
+
+export const CreateTaskDocument = gql`
+    mutation CreateTask($title: String!, $description: String!) {
+  createTask(input: {title: $title, description: $description}) {
+    id
+    title
+    description
+    status
+    createdAt
+    creatorId
+  }
+}
+    `;
+export type CreateTaskMutationFn = Apollo.MutationFunction<CreateTaskMutation, CreateTaskMutationVariables>;
+
+/**
+ * __useCreateTaskMutation__
+ *
+ * To run a mutation, you first call `useCreateTaskMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateTaskMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createTaskMutation, { data, loading, error }] = useCreateTaskMutation({
+ *   variables: {
+ *      title: // value for 'title'
+ *      description: // value for 'description'
+ *   },
+ * });
+ */
+export function useCreateTaskMutation(baseOptions?: Apollo.MutationHookOptions<CreateTaskMutation, CreateTaskMutationVariables>) {
+        return Apollo.useMutation<CreateTaskMutation, CreateTaskMutationVariables>(CreateTaskDocument, baseOptions);
+      }
+export type CreateTaskMutationHookResult = ReturnType<typeof useCreateTaskMutation>;
+export type CreateTaskMutationResult = Apollo.MutationResult<CreateTaskMutation>;
+export type CreateTaskMutationOptions = Apollo.BaseMutationOptions<CreateTaskMutation, CreateTaskMutationVariables>;
 export const LoginDocument = gql`
     mutation Login($email: String!, $password: String!) {
   login(email: $email, password: $password) {
@@ -180,3 +287,44 @@ export function useMeLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<MeQuery
 export type MeQueryHookResult = ReturnType<typeof useMeQuery>;
 export type MeLazyQueryHookResult = ReturnType<typeof useMeLazyQuery>;
 export type MeQueryResult = Apollo.QueryResult<MeQuery, MeQueryVariables>;
+export const GetTasksDocument = gql`
+    query getTasks($limit: Float!, $cursor: String) {
+  tasks(limit: $limit, cursor: $cursor) {
+    tasks {
+      id
+      title
+      description
+      createdAt
+      status
+    }
+    hasMore
+  }
+}
+    `;
+
+/**
+ * __useGetTasksQuery__
+ *
+ * To run a query within a React component, call `useGetTasksQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetTasksQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetTasksQuery({
+ *   variables: {
+ *      limit: // value for 'limit'
+ *      cursor: // value for 'cursor'
+ *   },
+ * });
+ */
+export function useGetTasksQuery(baseOptions?: Apollo.QueryHookOptions<GetTasksQuery, GetTasksQueryVariables>) {
+        return Apollo.useQuery<GetTasksQuery, GetTasksQueryVariables>(GetTasksDocument, baseOptions);
+      }
+export function useGetTasksLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetTasksQuery, GetTasksQueryVariables>) {
+          return Apollo.useLazyQuery<GetTasksQuery, GetTasksQueryVariables>(GetTasksDocument, baseOptions);
+        }
+export type GetTasksQueryHookResult = ReturnType<typeof useGetTasksQuery>;
+export type GetTasksLazyQueryHookResult = ReturnType<typeof useGetTasksLazyQuery>;
+export type GetTasksQueryResult = Apollo.QueryResult<GetTasksQuery, GetTasksQueryVariables>;
