@@ -1,0 +1,16 @@
+query getTask($id:Float!) {
+    task(id:$id){
+        id
+        title
+        description
+        creator{
+            id
+            name
+        }
+        handler{
+            id
+            name
+        }
+        createdAt
+    }
+}

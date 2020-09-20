@@ -21,7 +21,7 @@ const MyTabbar = ({ state, descriptors, navigation }: Props) => {
   }
 
   return (
-    <View style={{ flexDirection: 'row', backgroundColor: theme.colors.mainBackground, height: 70 }}>
+    <View style={{ flexDirection: 'row', backgroundColor: theme.colors.mainBackground, height: 60 }}>
       {state.routes.map((route: Route<string>, index) => {
         const { options } = descriptors[route.key];
         const label =
@@ -73,7 +73,7 @@ const MyTabbar = ({ state, descriptors, navigation }: Props) => {
             onLongPress={onLongPress}
             style={{ flex: 1 }}
           >
-            <Box  paddingVertical="l" justifyContent='center' alignItems="center" >
+            <Box  paddingVertical="m" justifyContent='center' alignItems="center" >
                 <Box borderRadius={25}   backgroundColor={label =="plus" ? "primaryText": "mainBackground"}>
                     
                     <Feather style={{ padding: theme.spacing.s}} name={label.toString().toLowerCase()} size={24} color={ iconColor } />
@@ -82,6 +82,17 @@ const MyTabbar = ({ state, descriptors, navigation }: Props) => {
           </TouchableOpacity>
         );
       })}
+      <TouchableOpacity
+            accessibilityRole="button"
+            style={{ flex: 1 }}
+          >
+            <Box  paddingVertical="l" justifyContent='center' alignItems="center" >
+                <Box borderRadius={25}   backgroundColor="mainBackground">
+                    
+                    <Feather style={{ padding: theme.spacing.s}} name="log-out" size={24} color={theme.colors.danger} />
+                </Box>
+            </Box>
+          </TouchableOpacity>
     </View>
   );
 }

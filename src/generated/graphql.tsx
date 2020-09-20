@@ -15,12 +15,18 @@ export type Query = {
   __typename?: 'Query';
   me?: Maybe<User>;
   tasks: PaginatedTask;
+  task: Task;
 };
 
 
 export type QueryTasksArgs = {
   cursor?: Maybe<Scalars['String']>;
   limit?: Maybe<Scalars['Float']>;
+};
+
+
+export type QueryTaskArgs = {
+  id: Scalars['Float'];
 };
 
 export type User = {
@@ -155,6 +161,26 @@ export type MeQuery = (
   )> }
 );
 
+export type GetTaskQueryVariables = Exact<{
+  id: Scalars['Float'];
+}>;
+
+
+export type GetTaskQuery = (
+  { __typename?: 'Query' }
+  & { task: (
+    { __typename?: 'Task' }
+    & Pick<Task, 'title' | 'description' | 'createdAt'>
+    & { creator?: Maybe<(
+      { __typename?: 'User' }
+      & Pick<User, 'id' | 'name'>
+    )>, handler?: Maybe<(
+      { __typename?: 'User' }
+      & Pick<User, 'id' | 'name'>
+    )> }
+  ) }
+);
+
 export type GetTasksQueryVariables = Exact<{
   limit: Scalars['Float'];
   cursor?: Maybe<Scalars['String']>;
@@ -287,6 +313,49 @@ export function useMeLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<MeQuery
 export type MeQueryHookResult = ReturnType<typeof useMeQuery>;
 export type MeLazyQueryHookResult = ReturnType<typeof useMeLazyQuery>;
 export type MeQueryResult = Apollo.QueryResult<MeQuery, MeQueryVariables>;
+export const GetTaskDocument = gql`
+    query getTask($id: Float!) {
+  task(id: $id) {
+    title
+    description
+    creator {
+      id
+      name
+    }
+    handler {
+      id
+      name
+    }
+    createdAt
+  }
+}
+    `;
+
+/**
+ * __useGetTaskQuery__
+ *
+ * To run a query within a React component, call `useGetTaskQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetTaskQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetTaskQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useGetTaskQuery(baseOptions?: Apollo.QueryHookOptions<GetTaskQuery, GetTaskQueryVariables>) {
+        return Apollo.useQuery<GetTaskQuery, GetTaskQueryVariables>(GetTaskDocument, baseOptions);
+      }
+export function useGetTaskLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetTaskQuery, GetTaskQueryVariables>) {
+          return Apollo.useLazyQuery<GetTaskQuery, GetTaskQueryVariables>(GetTaskDocument, baseOptions);
+        }
+export type GetTaskQueryHookResult = ReturnType<typeof useGetTaskQuery>;
+export type GetTaskLazyQueryHookResult = ReturnType<typeof useGetTaskLazyQuery>;
+export type GetTaskQueryResult = Apollo.QueryResult<GetTaskQuery, GetTaskQueryVariables>;
 export const GetTasksDocument = gql`
     query getTasks($limit: Float!, $cursor: String) {
   tasks(limit: $limit, cursor: $cursor) {

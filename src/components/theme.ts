@@ -57,6 +57,7 @@ const theme = createTheme({
       fontSize: 24,
       lineHeight: 42.5,
       color: 'primaryText',
+      textTransform:"capitalize",
       letterSpacing: -0.4
     },
     header1: {

@@ -4,42 +4,37 @@ import { StackNavigationProp } from "@react-navigation/stack";
 import React, { useEffect, useRef, useState } from "react";
 import {
   Alert,
-  Animated as VanillaAnimated, BackHandler,
-  Dimensions,
+  Animated,
+  BackHandler,
+
   StatusBar,
   StyleSheet
 } from "react-native";
-import { FlatList } from "react-native-gesture-handler";
-import Animated, { Easing, timing } from "react-native-reanimated";
-import { onScrollEvent, useValue } from "react-native-redash";
+import { Easing, timing } from "react-native-reanimated";
+import { useValue } from "react-native-redash";
 import { Routes } from "types";
-import { Box } from "../../components";
-import { Task, useGetTasksQuery } from "../../generated/graphql";
-import Cards, { CARDS_HEIGHT } from "./Cards";
-import HeaderTabs from "./HeaderTabs";
-import { TaskCard } from "./Tabs";
+import { Box, TaskCard } from "../../../components";
+import { Task, useGetTasksQuery } from "../../../generated/graphql";
+import Cards from "./../Cards";
+import HeaderTabs from "./../HeaderTabs";
 
 interface Prop {
   navigation: StackNavigationProp<Routes, "Login">;
   route: RouteProp<Routes, "Login">;
 }
 
-const { width, height } = Dimensions.get("screen");
 
-const Home = ({}: Prop) => {
+const Home = ({ navigation }: Prop) => {
   const [active, setActive] = useState<number>(0);
   const activeIndex = useValue(0);
 
   // Animation values
   // For outer scrollview
 
-  const AnimatedFlatlist = Animated.createAnimatedComponent(FlatList);
-  const mainScroll = useRef<Animated.ScrollView>(null);
-  const flatlist = useRef<VanillaAnimated.FlatList>(null)
+  const flatlist = useRef<Animated.FlatList | null>(null)
   
   // For content
-  const scrollView = useRef<Animated.ScrollView>(null);
-  const y = useRef<VanillaAnimated.Value>(new VanillaAnimated.Value(0)).current
+  const y = useRef<Animated.Value>(new Animated.Value(0)).current
 
   // APi Data
   const { data, loading, error,  fetchMore } = useGetTasksQuery({
@@ -49,16 +44,12 @@ const Home = ({}: Prop) => {
   const [tasks, setTasks] = useState<Task[]>([]);
 
   const handlePress = (i: number) => {
-    if (scrollView.current) {
-      scrollView.current.getNode().scrollTo({ x: width * i });
-    }
-    if (mainScroll.current) {
-      mainScroll.current
-        .getNode()
-        .scrollTo({ y: CARDS_HEIGHT, animated: true });
-    }
 
-    timing(activeIndex, {
+    if(flatlist.current) {
+       // @ts-ignore
+      flatlist.current.scrollToIndex({ index: 0, animated:true})
+    }
+     timing(activeIndex, {
       toValue: i,
       duration: 100,
       easing: Easing.linear,
@@ -97,7 +88,6 @@ const Home = ({}: Prop) => {
     };
   }, []);
   useEffect(() => {
-    console.log('re rendering', data)
     if (!loading && !error && data){
       //setTasks(data.tasks.tasks as Task[])
       //console.log()
@@ -113,8 +103,8 @@ const Home = ({}: Prop) => {
     <Box flex={1} backgroundColor="mainBackground">
       <StatusBar barStyle="dark-content" backgroundColor="white" />
       {/* <Cards {...{y,handlePress}} /> */}
-      <VanillaAnimated.FlatList
-        ref={flatlist}
+      <Animated.FlatList
+        ref={(flist) => flatlist.current = flist}
         style={[StyleSheet.absoluteFill]}
         data={tasks}
         extraData={tasks}
@@ -142,10 +132,10 @@ const Home = ({}: Prop) => {
           }
         }}
         renderItem={({ item }: { item: Task }) => {
-          return <TaskCard key={item.id} {...(item as Task)} />;
+          return <TaskCard key={item.id} navigation={navigation} {...(item as Task)} />;
         }}
         // {...{ onScroll }}
-        onScroll={VanillaAnimated.event(
+        onScroll={Animated.event(
             [{ nativeEvent: { contentOffset: { y  }}}],
             { useNativeDriver: true}
             )}
