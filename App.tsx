@@ -20,15 +20,15 @@ export default function App() {
   }
   const Stack = createStackNavigator();
   const client = new ApolloClient({
-    uri: 'https://8b5d03892d8b.ngrok.io/graphql',
+    uri: 'http://bff38b2ac731.ngrok.io/graphql',
     credentials: "include",
     cache: new InMemoryCache({
       typePolicies:{
         Query:{
           fields:{
-            posts:{
+            tasks:{
+              keyArgs:[],
               merge(existing:PaginatedTask | undefined, incoming: PaginatedTask):PaginatedTask {
-                console.log(existing,incoming)
                 return {
                   ...incoming,
                   tasks:[ ...(existing?.tasks || []), ...incoming.tasks]

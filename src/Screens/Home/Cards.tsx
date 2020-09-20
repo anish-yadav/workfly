@@ -1,26 +1,29 @@
 import { useTheme } from '@shopify/restyle'
 import React from 'react'
-import { SafeAreaView } from 'react-native'
+import { SafeAreaView, Animated } from 'react-native'
 import { ScrollView, TouchableWithoutFeedback } from 'react-native-gesture-handler'
-import Animated, { Extrapolate, interpolate } from 'react-native-reanimated'
+import  { Extrapolate, interpolate } from 'react-native-reanimated'
 import { Box, Text } from '../../components'
 import { Theme } from '../../components/theme'
 
 interface Props {
-    y: Animated.Node<number>;
-    handlePress: (i:number) => void
+    handlePress: (i:number) => void;
+    y:Animated.Value
 }
 export const CARDS_HEIGHT = 300
 const Cards = ({ y, handlePress }: Props) => {
 
-    const opacity = interpolate(y,{
+  const opacity1 = y.interpolate({
+
         inputRange:[0,CARDS_HEIGHT],
         outputRange: [1,0],
         extrapolate: Extrapolate.CLAMP
-    })
+
+  })
+
     const theme = useTheme<Theme>()
     return (
-        <Animated.View style={{ opacity }}>
+        <Animated.View style={{ opacity: opacity1 }}>
             <Text paddingHorizontal="l" paddingTop="l" variant="header" color="primaryText" >Workfly</Text>
          <ScrollView
           horizontal={true}

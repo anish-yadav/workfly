@@ -1,43 +1,36 @@
 import React, { RefObject } from "react";
 import {
-  View,
-  ScrollView,
-  StyleSheet,
-  Platform,
-  Dimensions,
+  Dimensions, StyleSheet, Animated 
 } from "react-native";
-import { Text, Box, theme } from "../../components";
-import Animated, { Extrapolate, interpolate } from "react-native-reanimated";
+import  { Extrapolate, interpolate } from "react-native-reanimated";
+import { Box, Text, theme } from "../../components";
 import { CARDS_HEIGHT } from "./Cards";
-import MaskedView from "@react-native-community/masked-view";
-import Tabs from "./Tabs";
-import { between, useValue } from "react-native-redash";
 
 interface Props {
-  active: Animated.Node<number>;
   curr:number;
   onPress: (i: number) => void;
-  y: Animated.Node<number>;
-  scrollView: RefObject<Animated.ScrollView>;
+  y: Animated.Value
 }
 
 const { width } = Dimensions.get("screen");
-const HeaderTabs = ({ active, onPress, y, curr }: Props) => {
+const HeaderTabs = ({  onPress, y, curr }: Props) => {
   const values = ["Created", "Working", "Closed"];
 
   // For the header
-  const translateY = interpolate(y, {
+  const translateY1 = y.interpolate({
     inputRange: [0, CARDS_HEIGHT],
     outputRange: [CARDS_HEIGHT, 0],
     extrapolate: Extrapolate.CLAMP,
   });
   // For the underline
-  const translateX = interpolate(active,{
+  const translateX1 = y.interpolate({
     inputRange:[0,1,2],
     outputRange:[ 0, width/3, 2*(width/3)],
     extrapolate: Extrapolate.CLAMP
   })
 
+
+  
   return (
     <Animated.View
       style={{
@@ -45,7 +38,7 @@ const HeaderTabs = ({ active, onPress, y, curr }: Props) => {
         paddingHorizontal: 10,
         position: "absolute",
         backgroundColor: "white",
-        transform: [{ translateY }],
+        transform: [{ translateY: translateY1 }],
       }}
     >
       <Box flex={1} flexDirection="row">
@@ -77,7 +70,7 @@ const HeaderTabs = ({ active, onPress, y, curr }: Props) => {
         style={[
           styles.line,
           { backgroundColor: theme.colors.cardPrimaryBackground,
-          transform:[{ translateX }]
+          transform:[{ translateX: translateX1 }]
           },
         ]}
       />
