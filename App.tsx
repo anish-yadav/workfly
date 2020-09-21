@@ -20,7 +20,7 @@ export default function App() {
   }
   const Stack = createStackNavigator();
   const client = new ApolloClient({
-    uri: 'https://b443e1961dc7.ngrok.io/graphql',
+    uri: 'https://d628f2254fc1.ngrok.io/graphql',
     credentials: "include",
     cache: new InMemoryCache({
       typePolicies:{

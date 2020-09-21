@@ -41,14 +41,19 @@ const Header = (props: StackHeaderProps) => {
       </TouchableWithoutFeedback>
 
       <Box flexDirection="row">
-        <Box marginHorizontal="s">
+        <Box marginHorizontal="m">
           <TouchableWithoutFeedback onPress={() => props.navigation.goBack()}>
-            <Feather name="edit-3" size={18} />
+            <Feather name="check" size={20} />
+          </TouchableWithoutFeedback>
+        </Box>
+        <Box marginHorizontal="m">
+          <TouchableWithoutFeedback onPress={() => props.navigation.goBack()}>
+            <Feather name="edit-3" size={20} />
           </TouchableWithoutFeedback>
         </Box>
         <Box marginLeft="s">
           <TouchableWithoutFeedback onPress={() => props.navigation.goBack()}>
-            <Feather name="trash-2" size={18} color={theme.colors.danger} />
+            <Feather name="trash-2" size={20} color={theme.colors.danger} />
           </TouchableWithoutFeedback>
         </Box>
       </Box>

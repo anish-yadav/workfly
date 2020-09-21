@@ -3,6 +3,7 @@ import { StackNavigationProp } from "@react-navigation/stack";
 import { formatDistanceToNow } from "date-fns";
 import React, { Component } from "react";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
+import { RichEditor } from "react-native-pell-rich-editor";
 import { Routes } from "types";
 import { Box, Text } from "./theme";
 
@@ -41,6 +42,7 @@ class TaskCard extends Component<TaskCardProp> {
           <Text variant="body1">
             {formatDistanceToNow(new Date(parseInt(createdAt)))} ago
           </Text>
+          
         </TouchableWithoutFeedback>
       </Box>
     );
