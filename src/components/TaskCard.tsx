@@ -18,7 +18,7 @@ interface TaskCardProp {
 class TaskCard extends Component<TaskCardProp> {
   
   render() {
-    const { id, description, createdAt, navigation } = this.props;
+    const { id,title, description, createdAt, navigation } = this.props;
 
     return (
       <Box
@@ -35,7 +35,7 @@ class TaskCard extends Component<TaskCardProp> {
           <Text variant="header1">{id}</Text>
           <Text variant="body">
             {description
-              .substr(0, 100)
+              .substr(0, 60)
               .replace(/<[^>]*>?/gm, " ")
               .replace("&nbsp", " ")}
           </Text>

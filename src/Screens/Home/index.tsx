@@ -23,14 +23,13 @@ const HomeTabbar = ({ navigation, route }: Prop) => {
   const routeName = route.state
     ? route.state.routes[route.state.index].name
     : '';
-
   if (routeName === 'TaskDetail') {
     return false;
   }
 
   return true;
 }
-  if (false) return <Authentication {...{ navigation, route }} />;
+  if (!isLoggedIn) return <Authentication {...{ navigation, route }} />;
   else
     return (
       <BottomTabbar.Navigator

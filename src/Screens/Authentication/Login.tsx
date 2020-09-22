@@ -29,9 +29,9 @@ const Login = ({ navigation }: Prop) => {
   const theme = useTheme<Theme>();
   const dispatch = useDispatch();
 
-  const [loginUser, { error, data }] = useLoginMutation();
+  const [loginUser] = useLoginMutation();
   
- 
+
   return (
     <View
       style={{ padding: theme.spacing.l, marginTop: theme.spacing.l, height }}
@@ -54,18 +54,18 @@ const Login = ({ navigation }: Prop) => {
             return;
           }
           try {
-            await loginUser({
+            const response = await loginUser({
               variables: { email: values.email, password: values.password },
             });
-            console.log(data?.login.error,error, values.password)
-            if(data?.login.error || error){
+            console.log(response.data?.login.error,response.errors, values.password)
+            if(response.data?.login.error || response.errors){
               setErrors({ password: 'incorrect password'})
               setSubmitting(false)
               return;
             }
-            console.log('user data',data?.login.user)
+            console.log('user data',response.data?.login.user)
               
-            dispatch(login(data));
+            dispatch(login(response.data));
             navigation.navigate('Home')
           } catch (error) {
             console.log(error);
@@ -97,7 +97,8 @@ const Login = ({ navigation }: Prop) => {
               <Button
                 isLoading={isSubmitting}
                 onPress={handleSubmit}
-                variant="login"
+                variant="log-in"
+                text="SIGN IN"
               />
               <Box
                 flexDirection="row"

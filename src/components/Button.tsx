@@ -8,11 +8,12 @@ import Feather from 'react-native-vector-icons/Feather'
 interface Props {
     isLoading: boolean,
     variant:string,
-    onPress:() => void
+    onPress:() => void,
+    text: string
 }
 
 const { width } = Dimensions.get('window')
-const Button = ({ variant = "default", onPress, isLoading}: Props) => {
+const Button = ({ variant, onPress, isLoading, text}: Props) => {
     const theme = useTheme<Theme>()
     return (
         <TouchableWithoutFeedback onPress={onPress}>
@@ -27,10 +28,10 @@ const Button = ({ variant = "default", onPress, isLoading}: Props) => {
                 borderRadius: 25
             }}>
                 <Text></Text>
-                <Text variant="subheader" color="mainBackground" >SIGN IN</Text>
+                <Text variant="subheader" color="mainBackground" >{text}</Text>
                 {isLoading ? (
         <ActivityIndicator color='white' />
-      ) :  <Feather name={variant === "login" ? "log-in":"lock"} size={16} color='white' />}
+      ) :  <Feather name={variant} size={16} color='white' />}
                
             </View>
         </TouchableWithoutFeedback>

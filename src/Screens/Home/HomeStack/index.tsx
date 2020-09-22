@@ -21,7 +21,7 @@ const HomeStack: React.FunctionComponent<indexProps> = (props) => {
         name="Home"
         options={{ headerShown: false }}
       />
-      <Stack.Screen component={TaskDetail} name="TaskDetail" />
+      <Stack.Screen component={TaskDetail} name="TaskDetail"  />
     </Stack.Navigator>
   );
 };

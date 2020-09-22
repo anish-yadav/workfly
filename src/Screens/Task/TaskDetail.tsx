@@ -1,19 +1,21 @@
 import { Link, RouteProp } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import React, { useEffect, useRef, useState } from "react";
-import { Image, Linking, View } from "react-native";
+import { Dimensions, Image, Linking, View } from "react-native";
 import { Task, useGetTaskQuery } from "../../generated/graphql";
 import { Routes } from "types";
-import { Box, Text, theme } from "../../components";
+import { Box, Text, theme, Button } from "../../components";
 import Feather from "react-native-vector-icons/Feather";
 import { format } from "date-fns";
 import { RichEditor } from "react-native-pell-rich-editor";
+import { TouchableWithoutFeedback } from "react-native-gesture-handler";
+
 
 interface Props {
   navigation: StackNavigationProp<Routes, "TaskDetail">;
   route: RouteProp<Routes, "TaskDetail">;
 }
-
+const { width } = Dimensions.get("screen")
 const TaskDetail = ({ navigation, route }: Props) => {
   const { id } = route.params;
 
@@ -74,6 +76,7 @@ const TaskDetail = ({ navigation, route }: Props) => {
             onHeightChange={() => console.log("Height changed")}
             initialContentHTML={task.description}
             disabled={true}
+            editorStyle={{backgroundColor: theme.colors.mainBackground, color: theme.colors.primaryText}}
             onShouldStartLoadWithRequest={(e) => {
               if(e.url !== "about:blank"){
                 Linking.openURL(e.url)
@@ -82,6 +85,11 @@ const TaskDetail = ({ navigation, route }: Props) => {
               return true
             }}
             />
+          </Box>
+          <Box position="absolute" bottom={20} width={width} paddingHorizontal="l">
+            <TouchableWithoutFeedback>
+              <Button isLoading={false} variant="check" text={task.handler ? task.handler.name : "Start Working"} onPress={() => console.log('pressed')} />
+            </TouchableWithoutFeedback>
           </Box>
       </Box>
     );
