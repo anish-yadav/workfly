@@ -1,5 +1,5 @@
-query getTasks($limit: Float!, $cursor: String) {
-  tasks(limit: $limit, cursor: $cursor) {
+query getTasks($limit: Float!, $cursor: String,$criteria:String) {
+  tasks(limit: $limit, cursor: $cursor,criteria:$criteria) {
     tasks {
       id
       title

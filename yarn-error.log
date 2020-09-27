@@ -1,30 +1,20 @@
 Arguments: 
-  /usr/bin/node /mnt/c/Users/anish/AppData/Roaming/npm/node_modules/yarn/bin/yarn.js add -D @types/react-native-redash
+  C:\Program Files\nodejs\node.exe C:\Users\anish\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js add @react-native-community/picker@1.6.0
 
 PATH: 
-  /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/mnt/c/Program Files (x86)/Common Files/Intel/Shared Libraries/redist/intel64/compiler:/mnt/c/Program Files (x86)/Common Files/Oracle/Java/javapath:/mnt/c/Program Files (x86)/Intel/iCLS Client/:/mnt/c/Program Files/Intel/iCLS Client/:/mnt/c/WINDOWS/system32:/mnt/c/WINDOWS:/mnt/c/WINDOWS/System32/Wbem:/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0/:/mnt/c/WINDOWS/System32/OpenSSH/:/mnt/c/Program Files (x86)/Intel/Intel(R) Management Engine Components/DAL:/mnt/c/Program Files/Intel/Intel(R) Management Engine Components/DAL:/mnt/c/Program Files (x86)/Intel/Intel(R) Management Engine Components/IPT:/mnt/c/Program Files/Intel/Intel(R) Management Engine Components/IPT:/mnt/c/Program Files/Git/cmd:/mnt/c/Program Files/Sublime Text 3/:/mnt/c/xampp/php:/mnt/c/Program Files/PuTTY/:/mnt/c/TDM-GCC-64/bin:/mnt/c/Program Files/Redis/:/mnt/c/Program Files/nodejs/:/mnt/c/Program Files/Java/jdk-14.0.2/bin:/mnt/c/Users/anish/AppData/Local/Android/Sdk/platform-tools:/mnt/c/Users/anish/AppData/Local/Programs/Python/Python37-32/Scripts/:/mnt/c/Users/anish/AppData/Local/Programs/Python/Python37-32/:/mnt/c/Users/anish/AppData/Local/Programs/Python/Python37-32:/mnt/c/Users/anish/AppData/Local/Microsoft/WindowsApps:/mnt/c/Users/anish/AppData/Local/atom/bin:/mnt/c/Program Files/heroku/bin:/mnt/c/Program Files/MongoDB/server/4.0/bin:/mnt/c/Users/anish/AppData/Local/Programs/Microsoft VS Code/bin:/mnt/c/Users/anish/AppData/Roaming/Dashlane/4.6.8.26847/bin/Firefox_Extension/{442718d9-475e-452a-b3e1-fb1ee16b8e9f}/components:/mnt/c/Users/anish/AppData/Roaming/Composer/vendor/bin:/mnt/c/Program Files/Oracle/VirtualBox:/mnt/c/Users/anish/AppData/Local/hyper/app-2.0.0/resources/bin:/mnt/c/Program Files/JetBrains/PyCharm 2019.1.3/bin:/mnt/c/Users/anish/AppData/Local/Microsoft/WindowsApps:/mnt/c/Users/anish/AppData/Roaming/npm
+  C:\Program Files (x86)\Common Files\Intel\Shared Libraries\redist\intel64\compiler;C:\Program Files (x86)\Intel\iCLS Client\;C:\Program Files\Intel\iCLS Client\;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\Git\cmd;C:\Program Files\Sublime Text 3\;C:\xampp\php;C:\Program Files\PuTTY\;C:\TDM-GCC-64\bin;C:\Program Files\Redis\;C:\Program Files\nodejs\;C:\Program Files\Java\jdk-14.0.2\bin;C:\Users\anish\AppData\Local\Android\Sdk\platform-tools;C:\Users\anish\AppData\Local\Programs\Python\Python37-32\Scripts\;C:\Users\anish\AppData\Local\Programs\Python\Python37-32\;C:\Users\anish\AppData\Local\Programs\Python\Python37-32;C:\Users\anish\AppData\Local\Microsoft\WindowsApps;C:\Program Files\heroku\bin;C:\Users\anish\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\anish\AppData\Roaming\Composer\vendor\bin;C:\Program Files\Oracle\VirtualBox;C:\Users\anish\AppData\Local\hyper\app-2.0.0\resources\bin;C:\Users\anish\AppData\Local\Microsoft\WindowsApps;C:\Users\anish\AppData\Roaming\npm;C:\Users\anish\AppData\Local\Android\Sdk\emulator
 
 Yarn version: 
   1.22.5
 
 Node version: 
-  10.19.0
+  12.18.3
 
 Platform: 
-  linux x64
+  win32 x64
 
 Trace: 
-  Error: https://registry.yarnpkg.com/@types%2freact-native-redash: Not found
-      at Request.params.callback [as _callback] (/mnt/c/Users/anish/AppData/Roaming/npm/node_modules/yarn/lib/cli.js:66988:18)
-      at Request.self.callback (/mnt/c/Users/anish/AppData/Roaming/npm/node_modules/yarn/lib/cli.js:140662:22)
-      at Request.emit (events.js:198:13)
-      at Request.<anonymous> (/mnt/c/Users/anish/AppData/Roaming/npm/node_modules/yarn/lib/cli.js:141634:10)
-      at Request.emit (events.js:198:13)
-      at IncomingMessage.<anonymous> (/mnt/c/Users/anish/AppData/Roaming/npm/node_modules/yarn/lib/cli.js:141556:12)
-      at Object.onceWrapper (events.js:286:20)
-      at IncomingMessage.emit (events.js:203:15)
-      at endReadableNT (_stream_readable.js:1145:12)
-      at process._tickCallback (internal/process/next_tick.js:63:19)
+  Error: EPERM: operation not permitted, unlink 'C:\Users\anish\Desktop\React\rn\workfly\app\node_modules\@babel\compat-data\node_modules\.bin'
 
 npm manifest: 
   {
@@ -46,23 +36,28 @@ npm manifest:
       "@react-navigation/stack": "^5.9.0",
       "@shopify/restyle": "^1.2.0",
       "axios": "^0.20.0",
+      "date-fns": "^2.16.1",
       "expo": "~38.0.8",
+      "expo-constants": "~9.1.1",
+      "expo-notifications": "~0.3.3",
+      "expo-permissions": "~9.0.1",
       "expo-status-bar": "^1.0.2",
       "formik": "^2.1.5",
       "graphql": "^15.3.0",
       "react": "~16.11.0",
       "react-dom": "~16.11.0",
       "react-native": "https://github.com/expo/react-native/archive/sdk-38.0.2.tar.gz",
-      "react-native-gesture-handler": "^1.8.0",
+      "react-native-gesture-handler": "~1.6.0",
       "react-native-linear-gradient": "^2.5.6",
+      "react-native-modal": "^11.5.6",
       "react-native-pell-rich-editor": "^1.3.0",
-      "react-native-reanimated": "^1.13.0",
-      "react-native-redash": "^15.1.4",
+      "react-native-reanimated": "~1.9.0",
+      "react-native-redash": "14.2.4",
       "react-native-safe-area-context": "~3.0.7",
       "react-native-screens": "~2.9.0",
       "react-native-vector-icons": "^7.0.0",
       "react-native-web": "~0.11.7",
-      "react-native-webview": "^10.9.0",
+      "react-native-webview": "9.4.0",
       "react-redux": "^7.2.1",
       "redux": "^4.0.5",
       "redux-persist": "^6.0.0"
@@ -1433,7 +1428,16 @@ Lockfile:
       tslib "~2.0.1"
       yaml-ast-parser "^0.0.43"
   
-  "@graphql-tools/relay-operation-optimizer@^6", "@graphql-tools/relay-operation-optimizer@^6.0.18":
+  "@graphql-tools/relay-operation-optimizer@^6":
+    version "6.2.3"
+    resolved "https://registry.yarnpkg.com/@graphql-tools/relay-operation-optimizer/-/relay-operation-optimizer-6.2.3.tgz#8f2bda200ae1eab53991f952f1e900c2bcc9b610"
+    integrity sha512-l7pVF1lC1fGNCXTSlPc1esGV5fEqru7HjWrcg5oF/DGIaWi8Drw6GLmexLBfkbmxatKlFkBjrVJ/q3RxSaj+eQ==
+    dependencies:
+      "@graphql-tools/utils" "6.2.3"
+      relay-compiler "10.0.1"
+      tslib "~2.0.1"
+  
+  "@graphql-tools/relay-operation-optimizer@^6.0.18":
     version "6.2.2"
     resolved "https://registry.yarnpkg.com/@graphql-tools/relay-operation-optimizer/-/relay-operation-optimizer-6.2.2.tgz#136ccca5ea33466391a9295c33408b27fe675fe6"
     integrity sha512-4kU+X/IpTNtO1MS/rBxW1ybflFonZ1WeBV9gv4tqXGPpHywJsO3y085PwMumoNfBpF755UfEu6XjE43SPg0m1g==
@@ -1469,6 +1473,15 @@ Lockfile:
     version "6.2.2"
     resolved "https://registry.yarnpkg.com/@graphql-tools/utils/-/utils-6.2.2.tgz#490236f539754ec59cd0490919b00ed9e0dba604"
     integrity sha512-a0SSYF76dnKHs8te4Igfnrrq1VOO4sFG8yx3ehO7464eGUfUUYo2QmNRjhxny2HRMvqzX40xuQikyg6LBXDNLQ==
+    dependencies:
+      "@ardatan/aggregate-error" "0.0.6"
+      camel-case "4.1.1"
+      tslib "~2.0.1"
+  
+  "@graphql-tools/utils@6.2.3":
+    version "6.2.3"
+    resolved "https://registry.yarnpkg.com/@graphql-tools/utils/-/utils-6.2.3.tgz#235636b47a62f12f3dddbdd30b2986fc03f3a5fa"
+    integrity sha512-eOhZy4y23r6AddokBqvFpQybtHvhTyZCc3VFWn8eIqF92vre90UKHbCX6Cf6VBo6i7l0ZwChPPbUzEiHOk+HJQ==
     dependencies:
       "@ardatan/aggregate-error" "0.0.6"
       camel-case "4.1.1"
@@ -2380,7 +2393,7 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/backo2/-/backo2-1.0.2.tgz#31ab1ac8b129363463e35b3ebb69f4dfcfba7947"
     integrity sha1-MasayLEpNjRj41s+u2n038+6eUc=
   
-  badgin@^1.1.2:
+  badgin@^1.1.2, badgin@^1.1.5:
     version "1.1.8"
     resolved "https://registry.yarnpkg.com/badgin/-/badgin-1.1.8.tgz#6e4c930554945d31752e5de2d8a316036dccda5e"
     integrity sha512-EGbhb5OwZreHS0vd8tFLzdWBqvz3dFREf1sYK5EtivtTDUkYCLSEKz1KvXJ4MBHAyKGDymx8wYPCQwrftQBifw==
@@ -3071,6 +3084,11 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-1.30.1.tgz#2e71bf0b119153dbb4cc4e88d9ea5acfb50dc05c"
     integrity sha512-hBSVCvSmWC+QypYObzwGOd9wqdDpOt+0wl0KbU+R+uuZBS1jN8VsD1ss3irQDknRj5NvxiTF6oj/nDRnN/UQNw==
   
+  date-fns@^2.16.1:
+    version "2.16.1"
+    resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-2.16.1.tgz#05775792c3f3331da812af253e1a935851d3834b"
+    integrity sha512-sAJVKx/FqrLYHAQeN7VpJrPhagZc9R4ImZIWYRFZaaohR3KzmuK88touwsSwSVT8Qcbd4zoDsnGfX4GFB4imyQ==
+  
   dayjs@^1.8.15:
     version "1.8.35"
     resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.8.35.tgz#67118378f15d31623f3ee2992f5244b887606888"
@@ -3488,6 +3506,11 @@ Lockfile:
       snapdragon "^0.8.1"
       to-regex "^3.0.1"
   
+  expo-application@~2.2.1:
+    version "2.2.1"
+    resolved "https://registry.yarnpkg.com/expo-application/-/expo-application-2.2.1.tgz#f14b83ae0b07e4922850f8856a56f141c168d6d0"
+    integrity sha512-YyYB2EPWmFmXgmnul9AMdZ6Ze290BWaez7RhUfAMq2gQU84EdpvL3vkO9SV5E4zI7Rj2jfS0VcCDpxrcdlBW/w==
+  
   expo-asset@~8.1.7:
     version "8.1.7"
     resolved "https://registry.yarnpkg.com/expo-asset/-/expo-asset-8.1.7.tgz#32618e51f85df56f1d7dd54c71eb486ae7f7674e"
@@ -3499,7 +3522,7 @@ Lockfile:
       path-browserify "^1.0.0"
       url-parse "^1.4.4"
   
-  expo-constants@~9.1.1:
+  expo-constants@9.1.1, expo-constants@~9.1.1:
     version "9.1.1"
     resolved "https://registry.yarnpkg.com/expo-constants/-/expo-constants-9.1.1.tgz#bca141ee3d4550e308798128f66c6d9c6a206ca1"
     integrity sha512-zCa/wRARODHd6BSwxjBhidmao0AqQnKmLkl0tsVIoZlRyPDHsEaxNR/m+7wqGC7qiC+UpG1qRnvLOLwCGt2ihg==
@@ -3556,6 +3579,16 @@ Lockfile:
     integrity sha512-MixKapt3nijAxyjIISscBzdKi8bwh0H/dWYsL2mCofrjguFHOh2gP07h95902lekb7NVqybl5AIQRW5cvrG4rQ==
     dependencies:
       invariant "^2.2.4"
+  
+  expo-notifications@~0.3.3:
+    version "0.3.3"
+    resolved "https://registry.yarnpkg.com/expo-notifications/-/expo-notifications-0.3.3.tgz#3c7b7275516028853e02f5c796e3365d4fb572ad"
+    integrity sha512-iBqvlbB6UVkU5yF4W9K/sqdPIbJ52VVeL7543G4IA3ARWhx6wdhfzcuGTCtUgV0XmkJu7vmPs+sC31aXjRa0Kg==
+    dependencies:
+      badgin "^1.1.5"
+      expo-application "~2.2.1"
+      expo-constants "9.1.1"
+      uuid "^3.4.0"
   
   expo-permissions@~9.0.1:
     version "9.0.1"
@@ -4221,6 +4254,11 @@ Lockfile:
     version "0.0.0"
     resolved "https://registry.yarnpkg.com/hermes-engine/-/hermes-engine-0.0.0.tgz#6a65954646b5e32c87aa998dee16152c0c904cd6"
     integrity sha512-q5DP4aUe6LnfMaLsxFP1cCY5qA0Ca5Qm2JQ/OgKi3sTfPpXth79AQ7vViXh/RRML53EpokDewMLJmI31RioBAA==
+  
+  hoist-non-react-statics@^2.3.1:
+    version "2.5.5"
+    resolved "https://registry.yarnpkg.com/hoist-non-react-statics/-/hoist-non-react-statics-2.5.5.tgz#c5903cf409c0dfd908f388e619d86b9c1174cb47"
+    integrity sha512-rqcy4pJo55FTTLWt+bU8ukscqHeE/e9KWvsOW2b/a3afxQZhwkQdT1rPPCJ0rYXdj4vNcasY8zHTH+jF/qStxw==
   
   hoist-non-react-statics@^3.3.0, hoist-non-react-statics@^3.3.2:
     version "3.3.2"
@@ -6270,6 +6308,13 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"
     integrity sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==
   
+  react-native-animatable@1.3.3:
+    version "1.3.3"
+    resolved "https://registry.yarnpkg.com/react-native-animatable/-/react-native-animatable-1.3.3.tgz#a13a4af8258e3bb14d0a9d839917e9bb9274ec8a"
+    integrity sha512-2ckIxZQAsvWn25Ho+DK3d1mXIgj7tITkrS4pYDvx96WyOttSvzzFeQnM2od0+FUMzILbdHDsDEqZvnz1DYNQ1w==
+    dependencies:
+      prop-types "^15.7.2"
+  
   react-native-appearance@~0.3.3:
     version "0.3.4"
     resolved "https://registry.yarnpkg.com/react-native-appearance/-/react-native-appearance-0.3.4.tgz#2cbcbc5142cdc1898c116684f519b16c879cbec2"
@@ -6279,13 +6324,13 @@ Lockfile:
       invariant "^2.2.4"
       use-subscription "^1.0.0"
   
-  react-native-gesture-handler@^1.8.0:
-    version "1.8.0"
-    resolved "https://registry.yarnpkg.com/react-native-gesture-handler/-/react-native-gesture-handler-1.8.0.tgz#18f61f51da50320f938957b0ee79bc58f47449dc"
-    integrity sha512-E2FZa0qZ5Bi0Z8Jg4n9DaFomHvedSjwbO2DPmUUHYRy1lH2yxXUpSrqJd6yymu+Efzmjg2+JZzsjFYA2Iq8VEQ==
+  react-native-gesture-handler@~1.6.0:
+    version "1.6.1"
+    resolved "https://registry.yarnpkg.com/react-native-gesture-handler/-/react-native-gesture-handler-1.6.1.tgz#678e2dce250ed66e93af409759be22cd6375dd17"
+    integrity sha512-gQgIKhDiYf754yzhhliagLuLupvGb6ZyBdzYzr7aus3Fyi87TLOw63ers+r4kGw0h26oAWTAdHd34JnF4NeL6Q==
     dependencies:
       "@egjs/hammerjs" "^2.0.17"
-      hoist-non-react-statics "^3.3.0"
+      hoist-non-react-statics "^2.3.1"
       invariant "^2.2.4"
       prop-types "^15.7.2"
   
@@ -6299,22 +6344,30 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/react-native-linear-gradient/-/react-native-linear-gradient-2.5.6.tgz#96215cbc5ec7a01247a20890888aa75b834d44a0"
     integrity sha512-HDwEaXcQIuXXCV70O+bK1rizFong3wj+5Q/jSyifKFLg0VWF95xh8XQgfzXwtq0NggL9vNjPKXa016KuFu+VFg==
   
+  react-native-modal@^11.5.6:
+    version "11.5.6"
+    resolved "https://registry.yarnpkg.com/react-native-modal/-/react-native-modal-11.5.6.tgz#bb25a78c35a5e24f45de060e5f64284397d38a87"
+    integrity sha512-APGNfbvgC4hXbJqcSADu79GLoMKIHUmgR3fDQ7rCGZNBypkStSP8imZ4PKK/OzIZZfjGU9aP49jhMgGbhY9KHA==
+    dependencies:
+      prop-types "^15.6.2"
+      react-native-animatable "1.3.3"
+  
   react-native-pell-rich-editor@^1.3.0:
     version "1.3.0"
     resolved "https://registry.yarnpkg.com/react-native-pell-rich-editor/-/react-native-pell-rich-editor-1.3.0.tgz#c58ad4a88188884b84cb3e81025a0639e6e75594"
     integrity sha512-inRF/iKO5wdsZ43G3H4yM101HDuv3z2EXjeayi+u32FCs5caLfmeU5LEx6y1If7vYKhMiI0htimvfTqSUk7Fww==
   
-  react-native-reanimated@^1.13.0:
-    version "1.13.0"
-    resolved "https://registry.yarnpkg.com/react-native-reanimated/-/react-native-reanimated-1.13.0.tgz#1ee5d27d34bd2cee7dfad4ae9a3673300872c917"
-    integrity sha512-uadP/0QO+4TCsyPSvzRdl+76NPM7Bp8M25KQLB4Hg3tWBMjhrMrETnzNi33L/OPfmhU+7rceyi0QPe/DxKT5bQ==
+  react-native-reanimated@~1.9.0:
+    version "1.9.0"
+    resolved "https://registry.yarnpkg.com/react-native-reanimated/-/react-native-reanimated-1.9.0.tgz#38676c99dd585504fdc7331efb45e5f48ec7339a"
+    integrity sha512-Aj+spgIHRiVv7ezGADxnSH1EoKrQRD2+XaSiGY0MiB/pvRNNrZPSJ+3NVpvLwWf9lZMOP7dwqqyJIzoZgBDt8w==
     dependencies:
       fbjs "^1.0.0"
   
-  react-native-redash@^15.1.4:
-    version "15.1.4"
-    resolved "https://registry.yarnpkg.com/react-native-redash/-/react-native-redash-15.1.4.tgz#743924f35c708cdb3f4e3ef996550dc62e9f1425"
-    integrity sha512-NXy/53+l7DeGNYn5boqpBEqgJRIemz5R18oChSiqN5isvZB86tMlMjR05HG9dUx3RQcEmGcxm5ral0CqZqiC3g==
+  react-native-redash@14.2.4:
+    version "14.2.4"
+    resolved "https://registry.yarnpkg.com/react-native-redash/-/react-native-redash-14.2.4.tgz#5dbb4b2f1a7441bb304fe3494b89e0dc9010c8ef"
+    integrity sha512-/1R9UxXv3ffKcrbxolqa2B247Cgd3ikyEm2q1VlBng77Es6PAD4LAOXQ83pBavvwNfOsbhF3ebkbMpJcLaVt3Q==
     dependencies:
       abs-svg-path "^0.1.1"
       normalize-svg-path "^1.0.1"
@@ -6355,10 +6408,10 @@ Lockfile:
       prop-types "^15.6.0"
       react-timer-mixin "^0.13.4"
   
-  react-native-webview@^10.9.0:
-    version "10.9.0"
-    resolved "https://registry.yarnpkg.com/react-native-webview/-/react-native-webview-10.9.0.tgz#a45998f82ab1bbbbfde22b8b155394772610157a"
-    integrity sha512-zYZfmdJca/xRbwvvOfPhzL59SQC4L0W9rPWVF4zMi7BMDdCVHXVp0wKZ9KzmqxZNwadZNTxl5s0pvd6p3S34Fg==
+  react-native-webview@9.4.0:
+    version "9.4.0"
+    resolved "https://registry.yarnpkg.com/react-native-webview/-/react-native-webview-9.4.0.tgz#108da34a6c7e1c032dcabc942b7e4947ca1d8028"
+    integrity sha512-BBOFUuza0p04+7fNi7TJmB0arpDJzGxHYwTCgI4vj5n/fl7u4jbm7ETp88mf7lo9lP6C6HGLo38KnEy1aXCQkg==
     dependencies:
       escape-string-regexp "2.0.0"
       invariant "2.2.4"

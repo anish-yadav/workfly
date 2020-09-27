@@ -32,7 +32,7 @@ class TaskCard extends Component<TaskCardProp> {
         <TouchableWithoutFeedback onPress={() => {
           navigation.navigate("TaskDetail",{ id })
         }}>
-          <Text variant="header1">{id}</Text>
+          <Text variant="header1">{title}</Text>
           <Text variant="body">
             {description
               .substr(0, 60)

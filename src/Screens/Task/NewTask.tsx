@@ -1,6 +1,6 @@
 import { RouteProp } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
-import { useTheme } from "@shopify/restyle";
+import { backgroundColor, useTheme } from "@shopify/restyle";
 import React, { useEffect, useRef, useState } from "react";
 import {
   ActivityIndicator,
@@ -14,13 +14,13 @@ import {
   ToastAndroid,
   View,
 } from "react-native";
-import { TouchableWithoutFeedback } from "react-native-gesture-handler";
+import { ScrollView, TouchableWithoutFeedback } from "react-native-gesture-handler";
 import { RichEditor, RichToolbar } from "react-native-pell-rich-editor";
 import Feather from "react-native-vector-icons/Feather";
 import { Theme } from "src/components/theme";
 import { useCreateTaskMutation } from "../../generated/graphql";
 import { Routes } from "types";
-import { Box, ICON_MAP, LinkModal } from "../../components";
+import { Box, ICON_MAP, LinkModal, SaveModal, InsertImageModal } from "../../components";
 import { useApolloClient } from "@apollo/client";
 
 interface Prop {
@@ -28,14 +28,27 @@ interface Prop {
   route: RouteProp<Routes, "Login">;
 }
 
-const { width } = Dimensions.get("screen");
-
 const CreateTask = ({ navigation }: Prop) => {
   const theme = useTheme<Theme>();
   const richText = useRef<RichEditor | null>();
   const [title, setTitle] = useState("");
   const [text, setText] = useState("");
   const [linkModalVisble, setLinkModalVisible] = useState<boolean>(false);
+
+  const departments = [
+    "Tech",
+    "Creatives",
+    "Board",
+    "Outreach",
+    "Consulting",
+    "Odisha",
+    "Lucknow",
+    "Agra",
+  ];
+  const [department, setDepartment] = useState<string>("Tech");
+  const [showSaveModal, setSaveModalVisible] = useState<boolean>(false);
+
+  const [showImageModal, setImageModalVisible] = useState<boolean>(false);
   const [
     createTask,
     { loading, data, error, called },
@@ -59,8 +72,7 @@ const CreateTask = ({ navigation }: Prop) => {
     };
   }, []);
   const save = () => {
-    createTask({ variables: { title: title, description: text } });
-    
+    createTask({ variables: { title: title, description: text ,department } });
   };
 
   useEffect(() => {
@@ -72,16 +84,21 @@ const CreateTask = ({ navigation }: Prop) => {
         ToastAndroid.CENTER
       );
       client.resetStore().then(() => {
-        console.log("caced clear")
-        if(navigation.canGoBack()){
-           navigation.goBack()
+        console.log("cached clear");
+        if (navigation.canGoBack()) {
+          navigation.goBack();
         }
       });
     }
   }, [called, loading, error, data]);
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{ flex: 1 ,backgroundColor: theme.colors.whiteText }}>
       <StatusBar barStyle="dark-content" backgroundColor="white" />
+      <SaveModal
+        visible={showSaveModal}
+        {...{ department, departments, setDepartment,loading,save }}
+        toggleModal={(v) => setSaveModalVisible(v)}
+      />
       <LinkModal
         visible={linkModalVisble}
         onComplete={({ title, url }) =>
@@ -92,6 +109,13 @@ const CreateTask = ({ navigation }: Prop) => {
         placeholderColor={theme.colors.secondaryText}
         setVisible={setLinkModalVisible}
       />
+      <InsertImageModal
+        toggleModal={setImageModalVisible}
+        visible={showImageModal}
+        onComplete={(url) => {
+          richText.current?.insertImage(url)
+        }}
+      />
       <Box
         flexDirection="row"
         justifyContent="space-between"
@@ -99,11 +123,17 @@ const CreateTask = ({ navigation }: Prop) => {
         paddingVertical="m"
         backgroundColor="mainBackground"
       >
-        <TouchableWithoutFeedback onPress={() => navigation.canGoBack() ? navigation.goBack(): console.log("cannot go back")}>
+        <TouchableWithoutFeedback
+          onPress={() =>
+            navigation.canGoBack()
+              ? navigation.goBack()
+              : console.log("cannot go back")
+          }
+        >
           <Feather name="chevron-left" size={24} />
         </TouchableWithoutFeedback>
 
-        <TouchableWithoutFeedback onPress={() => save()}>
+        <TouchableWithoutFeedback onPress={() => setSaveModalVisible(true)}>
           {loading && !error ? (
             <ActivityIndicator color={theme.colors.primaryText} />
           ) : (
@@ -111,6 +141,7 @@ const CreateTask = ({ navigation }: Prop) => {
           )}
         </TouchableWithoutFeedback>
       </Box>
+      <ScrollView>
       <Box flex={1} paddingHorizontal="l" backgroundColor="mainBackground">
         {/* <Header /> */}
         <TextInput
@@ -129,26 +160,34 @@ const CreateTask = ({ navigation }: Prop) => {
           editorStyle={{ backgroundColor: theme.colors.mainBackground }}
           // @ts-ignore
           onChange={handleChange}
+          initialFocus={true}
         />
       </Box>
 
-      <KeyboardAvoidingView
+     
+      </ScrollView>
+     <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
       >
         <RichToolbar
           editor={richText.current}
           getEditor={() => richText.current!}
+          
           style={{ backgroundColor: theme.colors.mainBackground }}
           onInsertLink={() => {
             console.log("Modal clicked");
             setLinkModalVisible((v) => !v);
           }}
+          onPressAddImage={() => {
+            setImageModalVisible(true)
+          }}
           selectedIconTint={"#2095F2"}
           disabledIconTint={"#000000"}
-          actions={["bold", "italic", "unorderedList", "link"]} // default defaultActions
+          actions={["bold", "italic", "unorderedList", "link","image"]} // default defaultActions
           iconMap={ICON_MAP}
         />
       </KeyboardAvoidingView>
+    
     </View>
   );
 };

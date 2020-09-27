@@ -1,17 +1,20 @@
 import { useTheme } from '@shopify/restyle'
 import React from 'react'
-import { SafeAreaView, Animated } from 'react-native'
+import { Animated } from 'react-native'
 import { ScrollView, TouchableWithoutFeedback } from 'react-native-gesture-handler'
-import  { Extrapolate, interpolate } from 'react-native-reanimated'
+import { Extrapolate } from 'react-native-reanimated'
 import { Box, Text } from '../../components'
 import { Theme } from '../../components/theme'
+import { Stats } from '../../generated/graphql'
 
 interface Props {
     handlePress: (i:number) => void;
-    y:Animated.Value
+    y:Animated.Value;
+    stats: Stats | undefined;
+    loading: boolean
 }
 export const CARDS_HEIGHT = 300
-const Cards = ({ y, handlePress }: Props) => {
+const Cards = ({ y, handlePress, stats, loading }: Props) => {
 
   const opacity1 = y.interpolate({
 
@@ -44,10 +47,10 @@ const Cards = ({ y, handlePress }: Props) => {
               borderRadius={theme.spacing.m}
             >
               <Text variant="header" color="whiteText">
-                Active
+                Open
               </Text>
               <Text variant="hero" color="whiteText">
-                24
+                { stats ? stats.open: 0}
               </Text>
             </Box>
           </TouchableWithoutFeedback>
@@ -63,10 +66,10 @@ const Cards = ({ y, handlePress }: Props) => {
               borderRadius={theme.spacing.m}
             >
               <Text variant="header" color="secondaryText">
-                Important
+                Working
               </Text>
               <Text variant="hero" color="secondaryText">
-                14
+                { stats ? stats.working : 0}
               </Text>
             </Box>
           </TouchableWithoutFeedback>
@@ -84,7 +87,7 @@ const Cards = ({ y, handlePress }: Props) => {
                 Completed
               </Text>
               <Text variant="hero" color="secondaryText">
-                16
+                { stats ? stats.completed : 0}
               </Text>
             </Box>
           </TouchableWithoutFeedback>

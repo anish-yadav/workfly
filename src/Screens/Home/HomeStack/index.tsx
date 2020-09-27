@@ -43,11 +43,6 @@ const Header = (props: StackHeaderProps) => {
       <Box flexDirection="row">
         <Box marginHorizontal="m">
           <TouchableWithoutFeedback onPress={() => props.navigation.goBack()}>
-            <Feather name="check" size={20} />
-          </TouchableWithoutFeedback>
-        </Box>
-        <Box marginHorizontal="m">
-          <TouchableWithoutFeedback onPress={() => props.navigation.goBack()}>
             <Feather name="edit-3" size={20} />
           </TouchableWithoutFeedback>
         </Box>

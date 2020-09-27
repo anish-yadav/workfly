@@ -1,14 +1,13 @@
-import { Link, RouteProp } from "@react-navigation/native";
+import { RouteProp } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
-import React, { useEffect, useRef, useState } from "react";
-import { Dimensions, Image, Linking, View } from "react-native";
-import { Task, useGetTaskQuery } from "../../generated/graphql";
-import { Routes } from "types";
-import { Box, Text, theme, Button } from "../../components";
-import Feather from "react-native-vector-icons/Feather";
 import { format } from "date-fns";
+import React, { useEffect, useRef, useState } from "react";
+import { Dimensions, Image, Linking, StyleSheet, View } from "react-native";
+import { ScrollView, TouchableWithoutFeedback } from "react-native-gesture-handler";
 import { RichEditor } from "react-native-pell-rich-editor";
-import { TouchableWithoutFeedback } from "react-native-gesture-handler";
+import { Routes } from "types";
+import { Box, Button, Text, theme } from "../../components";
+import { Task, useGetTaskQuery, useDoTaskMutation } from "../../generated/graphql";
 
 
 interface Props {
@@ -20,6 +19,7 @@ const TaskDetail = ({ navigation, route }: Props) => {
   const { id } = route.params;
 
   const { data, loading, error } = useGetTaskQuery({ variables: { id } });
+  const [ doTask, { loading: doTaskLoading}] = useDoTaskMutation()
 
   const [task, setTask] = useState<Task>();
   const richEditor = useRef<RichEditor>(null)
@@ -32,7 +32,9 @@ const TaskDetail = ({ navigation, route }: Props) => {
   if (!task) return <Text variant="header">Loading .... </Text>;
   else
     return (
-      <Box flex={1} backgroundColor="mainBackground" paddingHorizontal="l">
+      <View style={{flex: 1, backgroundColor: theme.colors.whiteText}}>
+      <ScrollView style={[StyleSheet.absoluteFill,{ marginBottom: 80}]}>
+      <Box flex={1} backgroundColor="mainBackground" paddingHorizontal="l" >
         <Text variant="header">{task.title}</Text>
         <Box flexDirection="row" marginVertical="l" justifyContent="space-between">
           <Box flexDirection="row" alignItems="center" >
@@ -76,7 +78,11 @@ const TaskDetail = ({ navigation, route }: Props) => {
             onHeightChange={() => console.log("Height changed")}
             initialContentHTML={task.description}
             disabled={true}
-            editorStyle={{backgroundColor: theme.colors.mainBackground, color: theme.colors.primaryText}}
+            focusable={false}
+            scrollEnabled={false}
+            injectedJavaScript={"document.body.style.userSelect = 'none'"}
+            
+            editorStyle={{backgroundColor: theme.colors.mainBackground, color: theme.colors.primaryText , contentCSSText: "-webkit-touch-callout: none; -webkit-user-select: none;-html-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; "}}
             onShouldStartLoadWithRequest={(e) => {
               if(e.url !== "about:blank"){
                 Linking.openURL(e.url)
@@ -85,13 +91,18 @@ const TaskDetail = ({ navigation, route }: Props) => {
               return true
             }}
             />
+            
           </Box>
-          <Box position="absolute" bottom={20} width={width} paddingHorizontal="l">
+         
+      </Box>
+       
+      </ScrollView>
+      <Box position="absolute" bottom={20} width={width} paddingHorizontal="l">
             <TouchableWithoutFeedback>
-              <Button isLoading={false} variant="check" text={task.handler ? task.handler.name : "Start Working"} onPress={() => console.log('pressed')} />
+              <Button isLoading={doTaskLoading} variant="check" text={task.handler ? task.handler.name : "Start Working"}  onPress={() => doTask({ variables: { taskId: id}})} />
             </TouchableWithoutFeedback>
           </Box>
-      </Box>
+      </View>
     );
 };
 

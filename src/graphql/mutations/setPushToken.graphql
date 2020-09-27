@@ -1,0 +1,3 @@
+mutation SetPushToken($token:String!) {
+    setPushToken(token:$token)
+}

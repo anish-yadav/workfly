@@ -1,6 +1,6 @@
-mutation CreateTask($title:String!,$description:String!){
+mutation CreateTask($title:String!,$description:String!,$department:String!){
   createTask(input:{ title: $title, 
-    description:$description}){
+    description:$description, department: $department}){
     id
     title
     description

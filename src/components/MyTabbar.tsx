@@ -5,7 +5,9 @@ import { BottomTabDescriptorMap, BottomTabNavigationEventMap } from '@react-navi
 import Feather from 'react-native-vector-icons/Feather'
 import { Box, Theme } from './theme';
 import { useTheme } from '@shopify/restyle';
-
+import { useLogoutMutation } from '../generated/graphql'
+import { useDispatch } from 'react-redux';
+import { logout } from '../../redux/actions/authAction';
 interface Props {
     state:TabNavigationState;
     descriptors: BottomTabDescriptorMap;
@@ -15,6 +17,9 @@ interface Props {
 const MyTabbar = ({ state, descriptors, navigation }: Props) => {
    const focusedOptions = descriptors[state.routes[state.index].key].options;
    const theme  = useTheme<Theme>();
+
+   const [logoutUser ] = useLogoutMutation()
+   const dispatch = useDispatch()
 
   if (focusedOptions.tabBarVisible === false) {
     return null;
@@ -85,6 +90,12 @@ const MyTabbar = ({ state, descriptors, navigation }: Props) => {
       <TouchableOpacity
             accessibilityRole="button"
             style={{ flex: 1 }}
+            onPress={() => {
+              logoutUser().then(({data, errors }) => {
+                if( !errors && data && data.logout)
+                  dispatch(logout())
+              })
+            }}
           >
             <Box  paddingVertical="l" justifyContent='center' alignItems="center" >
                 <Box borderRadius={25}   backgroundColor="mainBackground">

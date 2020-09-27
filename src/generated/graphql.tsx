@@ -14,12 +14,14 @@ export type Scalars = {
 export type Query = {
   __typename?: 'Query';
   me?: Maybe<User>;
+  stats: Stats;
   tasks: PaginatedTask;
   task: Task;
 };
 
 
 export type QueryTasksArgs = {
+  criteria?: Maybe<Scalars['String']>;
   cursor?: Maybe<Scalars['String']>;
   limit?: Maybe<Scalars['Float']>;
 };
@@ -50,12 +52,20 @@ export type Task = {
   title: Scalars['String'];
   description: Scalars['String'];
   status: Scalars['String'];
+  department?: Maybe<Scalars['String']>;
   creatorId: Scalars['Float'];
   creator?: Maybe<User>;
   createdAt: Scalars['String'];
   handlerId?: Maybe<Scalars['Int']>;
   handler?: Maybe<User>;
   updatedAt: Scalars['String'];
+};
+
+export type Stats = {
+  __typename?: 'Stats';
+  open: Scalars['Int'];
+  working: Scalars['Int'];
+  completed: Scalars['Int'];
 };
 
 export type PaginatedTask = {
@@ -68,6 +78,7 @@ export type Mutation = {
   __typename?: 'Mutation';
   register: Scalars['Boolean'];
   login: LoginResponse;
+  setPushToken: Scalars['Boolean'];
   logout: Scalars['Boolean'];
   createTask: Task;
   editTask: Task;
@@ -84,6 +95,11 @@ export type MutationRegisterArgs = {
 export type MutationLoginArgs = {
   password: Scalars['String'];
   email: Scalars['String'];
+};
+
+
+export type MutationSetPushTokenArgs = {
+  token: Scalars['String'];
 };
 
 
@@ -116,11 +132,13 @@ export type LoginResponse = {
 export type TaskInput = {
   title: Scalars['String'];
   description: Scalars['String'];
+  department: Scalars['String'];
 };
 
 export type CreateTaskMutationVariables = Exact<{
   title: Scalars['String'];
   description: Scalars['String'];
+  department: Scalars['String'];
 }>;
 
 
@@ -130,6 +148,34 @@ export type CreateTaskMutation = (
     { __typename?: 'Task' }
     & Pick<Task, 'id' | 'title' | 'description' | 'status' | 'createdAt' | 'creatorId'>
   ) }
+);
+
+export type DoTaskMutationVariables = Exact<{
+  taskId: Scalars['Float'];
+}>;
+
+
+export type DoTaskMutation = (
+  { __typename?: 'Mutation' }
+  & { doTask: (
+    { __typename?: 'Task' }
+    & Pick<Task, 'id' | 'title' | 'description' | 'handlerId'>
+    & { creator?: Maybe<(
+      { __typename?: 'User' }
+      & Pick<User, 'name'>
+    )>, handler?: Maybe<(
+      { __typename?: 'User' }
+      & Pick<User, 'name'>
+    )> }
+  ) }
+);
+
+export type LogoutMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type LogoutMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'logout'>
 );
 
 export type LoginMutationVariables = Exact<{
@@ -150,6 +196,16 @@ export type LoginMutation = (
   ) }
 );
 
+export type SetPushTokenMutationVariables = Exact<{
+  token: Scalars['String'];
+}>;
+
+
+export type SetPushTokenMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'setPushToken'>
+);
+
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -161,6 +217,17 @@ export type MeQuery = (
   )> }
 );
 
+export type StatsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type StatsQuery = (
+  { __typename?: 'Query' }
+  & { stats: (
+    { __typename?: 'Stats' }
+    & Pick<Stats, 'open' | 'completed' | 'working'>
+  ) }
+);
+
 export type GetTaskQueryVariables = Exact<{
   id: Scalars['Float'];
 }>;
@@ -170,7 +237,7 @@ export type GetTaskQuery = (
   { __typename?: 'Query' }
   & { task: (
     { __typename?: 'Task' }
-    & Pick<Task, 'title' | 'description' | 'createdAt'>
+    & Pick<Task, 'id' | 'title' | 'description' | 'createdAt'>
     & { creator?: Maybe<(
       { __typename?: 'User' }
       & Pick<User, 'id' | 'name'>
@@ -184,6 +251,7 @@ export type GetTaskQuery = (
 export type GetTasksQueryVariables = Exact<{
   limit: Scalars['Float'];
   cursor?: Maybe<Scalars['String']>;
+  criteria?: Maybe<Scalars['String']>;
 }>;
 
 
@@ -201,8 +269,8 @@ export type GetTasksQuery = (
 
 
 export const CreateTaskDocument = gql`
-    mutation CreateTask($title: String!, $description: String!) {
-  createTask(input: {title: $title, description: $description}) {
+    mutation CreateTask($title: String!, $description: String!, $department: String!) {
+  createTask(input: {title: $title, description: $description, department: $department}) {
     id
     title
     description
@@ -229,6 +297,7 @@ export type CreateTaskMutationFn = Apollo.MutationFunction<CreateTaskMutation, C
  *   variables: {
  *      title: // value for 'title'
  *      description: // value for 'description'
+ *      department: // value for 'department'
  *   },
  * });
  */
@@ -238,6 +307,76 @@ export function useCreateTaskMutation(baseOptions?: Apollo.MutationHookOptions<C
 export type CreateTaskMutationHookResult = ReturnType<typeof useCreateTaskMutation>;
 export type CreateTaskMutationResult = Apollo.MutationResult<CreateTaskMutation>;
 export type CreateTaskMutationOptions = Apollo.BaseMutationOptions<CreateTaskMutation, CreateTaskMutationVariables>;
+export const DoTaskDocument = gql`
+    mutation DoTask($taskId: Float!) {
+  doTask(taskId: $taskId) {
+    id
+    title
+    description
+    creator {
+      name
+    }
+    handlerId
+    handler {
+      name
+    }
+  }
+}
+    `;
+export type DoTaskMutationFn = Apollo.MutationFunction<DoTaskMutation, DoTaskMutationVariables>;
+
+/**
+ * __useDoTaskMutation__
+ *
+ * To run a mutation, you first call `useDoTaskMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDoTaskMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [doTaskMutation, { data, loading, error }] = useDoTaskMutation({
+ *   variables: {
+ *      taskId: // value for 'taskId'
+ *   },
+ * });
+ */
+export function useDoTaskMutation(baseOptions?: Apollo.MutationHookOptions<DoTaskMutation, DoTaskMutationVariables>) {
+        return Apollo.useMutation<DoTaskMutation, DoTaskMutationVariables>(DoTaskDocument, baseOptions);
+      }
+export type DoTaskMutationHookResult = ReturnType<typeof useDoTaskMutation>;
+export type DoTaskMutationResult = Apollo.MutationResult<DoTaskMutation>;
+export type DoTaskMutationOptions = Apollo.BaseMutationOptions<DoTaskMutation, DoTaskMutationVariables>;
+export const LogoutDocument = gql`
+    mutation Logout {
+  logout
+}
+    `;
+export type LogoutMutationFn = Apollo.MutationFunction<LogoutMutation, LogoutMutationVariables>;
+
+/**
+ * __useLogoutMutation__
+ *
+ * To run a mutation, you first call `useLogoutMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useLogoutMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [logoutMutation, { data, loading, error }] = useLogoutMutation({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useLogoutMutation(baseOptions?: Apollo.MutationHookOptions<LogoutMutation, LogoutMutationVariables>) {
+        return Apollo.useMutation<LogoutMutation, LogoutMutationVariables>(LogoutDocument, baseOptions);
+      }
+export type LogoutMutationHookResult = ReturnType<typeof useLogoutMutation>;
+export type LogoutMutationResult = Apollo.MutationResult<LogoutMutation>;
+export type LogoutMutationOptions = Apollo.BaseMutationOptions<LogoutMutation, LogoutMutationVariables>;
 export const LoginDocument = gql`
     mutation Login($email: String!, $password: String!) {
   login(email: $email, password: $password) {
@@ -279,6 +418,36 @@ export function useLoginMutation(baseOptions?: Apollo.MutationHookOptions<LoginM
 export type LoginMutationHookResult = ReturnType<typeof useLoginMutation>;
 export type LoginMutationResult = Apollo.MutationResult<LoginMutation>;
 export type LoginMutationOptions = Apollo.BaseMutationOptions<LoginMutation, LoginMutationVariables>;
+export const SetPushTokenDocument = gql`
+    mutation SetPushToken($token: String!) {
+  setPushToken(token: $token)
+}
+    `;
+export type SetPushTokenMutationFn = Apollo.MutationFunction<SetPushTokenMutation, SetPushTokenMutationVariables>;
+
+/**
+ * __useSetPushTokenMutation__
+ *
+ * To run a mutation, you first call `useSetPushTokenMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useSetPushTokenMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [setPushTokenMutation, { data, loading, error }] = useSetPushTokenMutation({
+ *   variables: {
+ *      token: // value for 'token'
+ *   },
+ * });
+ */
+export function useSetPushTokenMutation(baseOptions?: Apollo.MutationHookOptions<SetPushTokenMutation, SetPushTokenMutationVariables>) {
+        return Apollo.useMutation<SetPushTokenMutation, SetPushTokenMutationVariables>(SetPushTokenDocument, baseOptions);
+      }
+export type SetPushTokenMutationHookResult = ReturnType<typeof useSetPushTokenMutation>;
+export type SetPushTokenMutationResult = Apollo.MutationResult<SetPushTokenMutation>;
+export type SetPushTokenMutationOptions = Apollo.BaseMutationOptions<SetPushTokenMutation, SetPushTokenMutationVariables>;
 export const MeDocument = gql`
     query Me {
   me {
@@ -313,9 +482,44 @@ export function useMeLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<MeQuery
 export type MeQueryHookResult = ReturnType<typeof useMeQuery>;
 export type MeLazyQueryHookResult = ReturnType<typeof useMeLazyQuery>;
 export type MeQueryResult = Apollo.QueryResult<MeQuery, MeQueryVariables>;
+export const StatsDocument = gql`
+    query Stats {
+  stats {
+    open
+    completed
+    working
+  }
+}
+    `;
+
+/**
+ * __useStatsQuery__
+ *
+ * To run a query within a React component, call `useStatsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useStatsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useStatsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useStatsQuery(baseOptions?: Apollo.QueryHookOptions<StatsQuery, StatsQueryVariables>) {
+        return Apollo.useQuery<StatsQuery, StatsQueryVariables>(StatsDocument, baseOptions);
+      }
+export function useStatsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<StatsQuery, StatsQueryVariables>) {
+          return Apollo.useLazyQuery<StatsQuery, StatsQueryVariables>(StatsDocument, baseOptions);
+        }
+export type StatsQueryHookResult = ReturnType<typeof useStatsQuery>;
+export type StatsLazyQueryHookResult = ReturnType<typeof useStatsLazyQuery>;
+export type StatsQueryResult = Apollo.QueryResult<StatsQuery, StatsQueryVariables>;
 export const GetTaskDocument = gql`
     query getTask($id: Float!) {
   task(id: $id) {
+    id
     title
     description
     creator {
@@ -357,8 +561,8 @@ export type GetTaskQueryHookResult = ReturnType<typeof useGetTaskQuery>;
 export type GetTaskLazyQueryHookResult = ReturnType<typeof useGetTaskLazyQuery>;
 export type GetTaskQueryResult = Apollo.QueryResult<GetTaskQuery, GetTaskQueryVariables>;
 export const GetTasksDocument = gql`
-    query getTasks($limit: Float!, $cursor: String) {
-  tasks(limit: $limit, cursor: $cursor) {
+    query getTasks($limit: Float!, $cursor: String, $criteria: String) {
+  tasks(limit: $limit, cursor: $cursor, criteria: $criteria) {
     tasks {
       id
       title
@@ -385,6 +589,7 @@ export const GetTasksDocument = gql`
  *   variables: {
  *      limit: // value for 'limit'
  *      cursor: // value for 'cursor'
+ *      criteria: // value for 'criteria'
  *   },
  * });
  */

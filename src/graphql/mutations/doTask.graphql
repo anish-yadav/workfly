@@ -1,0 +1,14 @@
+mutation DoTask($taskId: Float!) {
+  doTask(taskId: $taskId) {
+    id
+    title
+    description
+    creator {
+      name
+    }
+    handlerId
+    handler {
+      name
+    }
+  }
+}

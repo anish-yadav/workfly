@@ -1,8 +1,8 @@
 import React from 'react'
 import { TouchableWithoutFeedback, View, Dimensions, ActivityIndicator } from 'react-native'
 import { useTheme } from '@shopify/restyle'
-import { Theme } from './theme'
-import { Text } from './index'
+import { Theme,Text } from './theme'
+
 import Feather from 'react-native-vector-icons/Feather'
 
 interface Props {

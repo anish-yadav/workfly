@@ -1,6 +1,7 @@
 import { RouteProp } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { useTheme } from "@shopify/restyle";
+import { StatusBar } from "expo-status-bar";
 import { Formik } from "formik";
 import React from "react";
 import {
@@ -36,6 +37,7 @@ const Login = ({ navigation }: Prop) => {
     <View
       style={{ padding: theme.spacing.l, marginTop: theme.spacing.l, height }}
     >
+      <StatusBar style="dark" />
       <Box flexDirection="row" marginBottom="xl">
         <Feather name="map-pin" size={24} />
         <Text variant="body"> Delhi, India</Text>

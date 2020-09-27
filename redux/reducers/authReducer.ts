@@ -11,8 +11,8 @@ const INITIAL_STATE: AuthType = {
   bcCity: "",
   contact: "",
   zohoID: "",
-  createdAt: '',
-  updatedAt: ''
+  createdAt: "",
+  updatedAt: "",
 };
 
 const authReducer = (state = INITIAL_STATE, action: Action<LoginMutation>) => {
@@ -21,6 +21,9 @@ const authReducer = (state = INITIAL_STATE, action: Action<LoginMutation>) => {
       const { user } = action.payload.login;
       return { ...state, isLoggedIn: true, ...user };
 
+    case "LOGOUT":
+      return INITIAL_STATE;
+      
     default:
       return state;
   }

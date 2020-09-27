@@ -15,6 +15,9 @@ export const ICON_MAP  = {
     'unorderedList': ({ tintColor }:any) => (
       <Feather style={{ paddingHorizontal: theme.spacing.s}} name="list" color={tintColor} size={24} />
     ),
+    'image': ({ tintColor }:any) => (
+      <Feather style={{ paddingHorizontal: theme.spacing.s}} name="image" color={tintColor} size={24} />
+    ),
     
   };
 

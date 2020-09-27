@@ -1,0 +1,7 @@
+query Stats{
+    stats{
+        open
+        completed
+        working
+    }
+}
